@@ -14,7 +14,6 @@ class Log : public LogIf
     ~Log();
 
     void log(type, const std::string&) override;
-    void setlevel(type);
     std::string info() const override;
 
   private:

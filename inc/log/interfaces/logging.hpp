@@ -21,7 +21,6 @@ class LogIf
     virtual ~LogIf() = default;
 
     virtual void log(type, const std::string&) = 0;
-    virtual void setlevel(type) = 0;
     virtual std::string info() const = 0;
 };
 
