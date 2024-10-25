@@ -37,7 +37,7 @@ jobs:
         mkdir build && cd build &&
           cmake -DADD_EXAMPLES=ON .. && make
     - name: Executing program
-      run: ./build/examples/collection/prog
+      run: ./build/examples/group/prog
 
   test:
     name: Test [WIP]

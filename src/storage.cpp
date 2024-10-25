@@ -23,10 +23,8 @@ struct Log::Handler
 {
   public:
     Handler(const std::string& dir, const std::string& file, type lvl) :
-        fs{dir, file}
-    {
-        setlevel(lvl);
-    }
+        fs{dir, file}, level{lvl}
+    {}
 
     class Filesystem
     {
@@ -59,11 +57,6 @@ struct Log::Handler
         return info;
     }
 
-    void setlevel(type newlevel)
-    {
-        level = newlevel;
-    }
-
     void log(type type, const std::string& msg)
     {
         if (type <= level)
@@ -89,11 +82,6 @@ Log::~Log() = default;
 std::string Log::info() const
 {
     return handler->getinfo();
-}
-
-void Log::setlevel(type level)
-{
-    return handler->setlevel(level);
 }
 
 void Log::log(type type, const std::string& msg)

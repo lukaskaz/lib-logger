@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace logging::collection
+namespace logging::group
 {
 
 class Log : public LogIf
@@ -15,7 +15,6 @@ class Log : public LogIf
     ~Log();
 
     void log(type, const std::string&) override;
-    void setlevel(type);
     std::string info() const override;
 
   private:
@@ -25,4 +24,4 @@ class Log : public LogIf
     std::unique_ptr<Handler> handler;
 };
 
-} // namespace logging::collection
+} // namespace logging::group

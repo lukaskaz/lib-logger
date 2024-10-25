@@ -16,19 +16,12 @@ const std::unordered_map<type, std::string> typeNameMap = {
 struct Log::Handler
 {
   public:
-    Handler(type lvl)
-    {
-        setlevel(lvl);
-    }
+    Handler(type lvl) : level{lvl}
+    {}
 
     std::string getinfo() const
     {
         return info;
-    }
-
-    void setlevel(type newlevel)
-    {
-        level = newlevel;
     }
 
     void log(type type, const std::string& msg)
@@ -55,11 +48,6 @@ Log::~Log() = default;
 std::string Log::info() const
 {
     return handler->getinfo();
-}
-
-void Log::setlevel(type level)
-{
-    return handler->setlevel(level);
 }
 
 void Log::log(type type, const std::string& msg)

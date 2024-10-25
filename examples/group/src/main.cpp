@@ -1,5 +1,5 @@
-#include "log/interfaces/collection.hpp"
 #include "log/interfaces/console.hpp"
+#include "log/interfaces/group.hpp"
 #include "log/interfaces/storage.hpp"
 
 #include <iostream>
@@ -13,7 +13,7 @@ int main()
             logging::LogFactory::create<logging::console::Log>(lvl);
         auto logstorage =
             logging::LogFactory::create<logging::storage::Log>(lvl);
-        auto logIf = logging::LogFactory::create<logging::collection::Log>(
+        auto logIf = logging::LogFactory::create<logging::group::Log>(
             {logconsole, logstorage});
         logIf->log(logging::type::info, "Test log number one");
         logIf->log(logging::type::critical, "Additional test log");

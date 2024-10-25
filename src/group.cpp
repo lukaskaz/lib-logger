@@ -1,8 +1,8 @@
-#include "log/interfaces/collection.hpp"
+#include "log/interfaces/group.hpp"
 
 #include <algorithm>
 
-namespace logging::collection
+namespace logging::group
 {
 
 struct Log::Handler
@@ -18,12 +18,6 @@ struct Log::Handler
         std::ranges::for_each(
             loggers, [&infos](auto logger) { infos += logger->info() + " "; });
         return infos;
-    }
-
-    void setlevel(type newlevel)
-    {
-        std::ranges::for_each(
-            loggers, [newlevel](auto logger) { logger->setlevel(newlevel); });
     }
 
     void log(type type, const std::string& msg)
@@ -47,14 +41,9 @@ std::string Log::info() const
     return handler->getinfo();
 }
 
-void Log::setlevel(type level)
-{
-    return handler->setlevel(level);
-}
-
 void Log::log(type type, const std::string& msg)
 {
     handler->log(type, msg);
 }
 
-} // namespace logging::collection
+} // namespace logging::group
