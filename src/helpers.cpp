@@ -3,6 +3,7 @@
 #include <time.h>
 
 #include <algorithm>
+#include <sstream>
 
 namespace logging
 {
@@ -20,4 +21,16 @@ std::string gettimestr()
                   timestr.end());
     return timestr;
 }
+
+std::vector<std::string> getmultiline(const std::string& msg)
+{
+    std::vector<std::string> output;
+    std::istringstream input{msg};
+    for (std::string line; std::getline(input, line);)
+    {
+        output.push_back(line);
+    }
+    return output;
+}
+
 } // namespace logging

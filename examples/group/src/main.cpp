@@ -15,8 +15,9 @@ int main()
             logging::LogFactory::create<logging::storage::Log>(lvl);
         auto logIf = logging::LogFactory::create<logging::group::Log>(
             {logconsole, logstorage});
-        logIf->log(logging::type::info, "Test log number one");
-        logIf->log(logging::type::critical, "Additional test log");
+        logIf->log(logging::type::info, "module", "Test log number one");
+        logIf->log(logging::type::critical, "module",
+                   "Additional test log\nMore information here");
     }
     catch (std::exception& err)
     {

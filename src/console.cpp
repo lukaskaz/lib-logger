@@ -1,5 +1,8 @@
 #include "log/interfaces/console.hpp"
 
+#include "log/helpers.hpp"
+
+#include <algorithm>
 #include <iostream>
 #include <unordered_map>
 
@@ -24,10 +27,17 @@ struct Log::Handler
         return info;
     }
 
-    void log(type type, const std::string& msg)
+    void log(type type, const std::string& module, const std::string& msg)
     {
         if (type <= level)
-            std::cout << "[" << gettypename(type) << "] " << msg << "\n";
+        {
+            std::ranges::for_each(
+                getmultiline(msg),
+                [this, type, &module](const std::string& line) {
+                    std::cout << "[" << gettypename(type) << "][" << module
+                              << "] " << line << "\n";
+                });
+        }
     }
 
   private:
@@ -50,9 +60,9 @@ std::string Log::info() const
     return handler->getinfo();
 }
 
-void Log::log(type type, const std::string& msg)
+void Log::log(type type, const std::string& module, const std::string& msg)
 {
-    handler->log(type, msg);
+    handler->log(type, module, msg);
 }
 
 } // namespace logging::console
