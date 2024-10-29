@@ -14,7 +14,7 @@ class Log : public LogIf
   public:
     ~Log();
 
-    void log(type, const std::string&) override;
+    void log(type, const std::string&, const std::string&) override;
     std::string info() const override;
 
   private:

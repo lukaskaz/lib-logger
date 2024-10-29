@@ -20,10 +20,11 @@ struct Log::Handler
         return infos;
     }
 
-    void log(type type, const std::string& msg)
+    void log(type type, const std::string& module, const std::string& msg)
     {
-        std::ranges::for_each(
-            loggers, [type, &msg](auto logger) { logger->log(type, msg); });
+        std::ranges::for_each(loggers, [type, &module, &msg](auto logger) {
+            logger->log(type, module, msg);
+        });
     }
 
   private:
@@ -41,9 +42,9 @@ std::string Log::info() const
     return handler->getinfo();
 }
 
-void Log::log(type type, const std::string& msg)
+void Log::log(type type, const std::string& module, const std::string& msg)
 {
-    handler->log(type, msg);
+    handler->log(type, module, msg);
 }
 
 } // namespace logging::group

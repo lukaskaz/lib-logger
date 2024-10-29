@@ -20,7 +20,7 @@ class LogIf
   public:
     virtual ~LogIf() = default;
 
-    virtual void log(type, const std::string&) = 0;
+    virtual void log(type, const std::string&, const std::string&) = 0;
     virtual std::string info() const = 0;
 };
 

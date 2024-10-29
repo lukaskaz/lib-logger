@@ -2,6 +2,7 @@
 
 #include "log/helpers.hpp"
 
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <unordered_map>
@@ -40,7 +41,7 @@ struct Log::Handler
             {
                 throw std::runtime_error("Cannot open storage for logging");
             }
-            storage << "Logging started at " << gettimestr() << "\n";
+            storage << "Logging started at " << gettimestr() << std::endl;
         }
         ~Filesystem() = default;
 
@@ -57,10 +58,17 @@ struct Log::Handler
         return info;
     }
 
-    void log(type type, const std::string& msg)
+    void log(type type, const std::string& module, const std::string& msg)
     {
         if (type <= level)
-            fs.storage << "[" << gettypename(type) << "] " << msg << "\n";
+        {
+            std::ranges::for_each(
+                getmultiline(msg),
+                [this, type, &module](const std::string& line) {
+                    fs.storage << "[" << gettypename(type) << "][" << module
+                               << "] " << line << std::endl;
+                });
+        }
     }
 
   private:
@@ -84,9 +92,9 @@ std::string Log::info() const
     return handler->getinfo();
 }
 
-void Log::log(type type, const std::string& msg)
+void Log::log(type type, const std::string& module, const std::string& msg)
 {
-    handler->log(type, msg);
+    handler->log(type, module, msg);
 }
 
 } // namespace logging::storage
