@@ -1,14 +1,14 @@
 name: Check build/run/tests
 
 on:
-  schedule:
-    # Polish time: 6AM
-    - cron: "0 4 * * *"
   push:
     branches: [main]
   pull_request:
       # as by default
       types: [opened, synchronize, reopened]
+  schedule:
+    # Polish time: 6AM
+    - cron: "0 4 * * *"
 
 jobs:
   build:
