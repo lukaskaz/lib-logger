@@ -1,14 +1,11 @@
 name: Check build/run/tests
 
 on:
-  schedule:
-    # Polish time: 6AM
-    - cron: "0 4 * * *"
   push:
     branches: [main]
   pull_request:
-    # as by default
-    types: [opened, synchronize, reopened]
+      # as by default
+      types: [opened, synchronize, reopened]
 
 jobs:
   build:
@@ -34,13 +31,13 @@ jobs:
       uses: actions/checkout@v4
     - name: Preparing binary
       run: |
-        mkdir build && cd build &&
-          cmake -DADD_EXAMPLES=ON .. && make
-    - name: Executing program
-      run: ./build/examples/group/prog 4
+        mkdir build && cd build && cmake -DADD_EXAMPLES=ON .. && make
+    - name: Executing example programs
+      run: |
+        ./build/examples/linux/rpi/prog
 
   test:
-    name: Test [WIP]
+    name: Test
     runs-on: ubuntu-latest
     environment: test
 
@@ -49,8 +46,27 @@ jobs:
       uses: actions/checkout@v4
     - name: Building tests
       run: |
-        cd tests && mkdir build && cd build &&
-        cmake .. && make
+        cd tests && mkdir build && cd build && cmake .. && make
     - name: Running tests
       run: |
         ctest --output-on-failure --test-dir tests/build/
+
+  tests-coverage:
+    name: Coverage
+    if: false
+    needs: [test]
+    runs-on: ubuntu-latest
+    environment: test
+
+    steps:
+    - name: Checking out
+      uses: actions/checkout@v4
+    - name: Setting up
+      run: |
+        sudo apt install lcov
+    - name: Preparing tests
+      run: |
+        cd tests && mkdir build && cd build && cmake .. && make
+    - name: Running coverage checker
+      run: |
+        cd tests && ./scripts/check-coverage.sh
