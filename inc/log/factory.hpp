@@ -1,28 +1,20 @@
 #pragma once
 
-#include "log/interfaces/logging.hpp"
+#include "log/interfaces/log.hpp"
 
 #include <memory>
-#include <vector>
 
-namespace logging
+namespace logs
 {
 
-class LogFactory
+class Factory
 {
   public:
-    template <typename T>
-    static std::shared_ptr<LogIf> create(type lvl)
+    template <typename T, typename C>
+    static std::shared_ptr<LogIf> create(const C& config)
     {
-        return std::shared_ptr<T>(new T(lvl));
-    }
-
-    template <typename T>
-    static std::shared_ptr<LogIf>
-        create(std::vector<std::shared_ptr<LogIf>>&& loggers)
-    {
-        return std::shared_ptr<T>(new T(std::move(loggers)));
+        return std::shared_ptr<T>(new T(config));
     }
 };
 
-} // namespace logging
+} // namespace logs

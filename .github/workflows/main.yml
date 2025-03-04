@@ -25,7 +25,7 @@ jobs:
       
   execution:
     name: Execution
-    # needs: [build]
+    needs: [build]
     runs-on: ubuntu-latest
     environment: production
 
@@ -37,7 +37,7 @@ jobs:
         mkdir build && cd build &&
           cmake -DADD_EXAMPLES=ON .. && make
     - name: Executing program
-      run: ./build/examples/group/prog
+      run: ./build/examples/group/prog 4
 
   test:
     name: Test [WIP]

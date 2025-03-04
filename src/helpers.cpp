@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <sstream>
 
-namespace logging
+namespace logs
 {
 
 std::string gettimestr()
@@ -33,4 +33,4 @@ std::vector<std::string> getmultiline(const std::string& msg)
     return output;
 }
 
-} // namespace logging
+} // namespace logs
