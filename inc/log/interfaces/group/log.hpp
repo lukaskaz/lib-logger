@@ -6,22 +6,24 @@
 #include <string>
 #include <vector>
 
-namespace logging::group
+namespace logs::group
 {
+
+using config_t = std::vector<std::shared_ptr<LogIf>>;
 
 class Log : public LogIf
 {
   public:
     ~Log();
 
-    void log(type, const std::string&, const std::string&) override;
+    void log(level, const std::string&, const std::string&) override;
     std::string info() const override;
 
   private:
-    friend class logging::LogFactory;
-    explicit Log(std::vector<std::shared_ptr<LogIf>>&&);
+    friend class logs::Factory;
+    explicit Log(const config_t&);
     struct Handler;
     std::unique_ptr<Handler> handler;
 };
 
-} // namespace logging::group
+} // namespace logs::group
