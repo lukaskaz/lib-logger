@@ -1,23 +1,27 @@
-#include "log/interfaces/console.hpp"
-#include "log/interfaces/group.hpp"
-#include "log/interfaces/storage.hpp"
+#include "logs/interfaces/console/logs.hpp"
+#include "logs/interfaces/group/logs.hpp"
+#include "logs/interfaces/storage/logs.hpp"
 
 #include <iostream>
 
-int main()
+int main(int argc, [[maybe_unused]] char** argv)
 {
     try
     {
-        auto lvl = logging::type::debug;
-        auto logconsole =
-            logging::LogFactory::create<logging::console::Log>(lvl);
-        auto logstorage =
-            logging::LogFactory::create<logging::storage::Log>(lvl);
-        auto logIf = logging::LogFactory::create<logging::group::Log>(
-            {logconsole, logstorage});
-        logIf->log(logging::type::info, "module", "Test log number one");
-        logIf->log(logging::type::critical, "module",
-                   "Additional test log\nMore information here");
+        if (argc > 1)
+        {
+            using namespace logs;
+            auto lvl = (level)atoi(argv[1]);
+            auto logconsole =
+                Factory::create<console::Log, console::config_t>(lvl);
+            auto logstorage =
+                Factory::create<storage::Log, storage::config_t>({lvl, {}});
+            auto logIf = Factory::create<group::Log, group::config_t>(
+                {logconsole, logstorage});
+            logIf->log(level::info, "tag", "Test log number one");
+            logIf->log(level::critical, "tag",
+                       "Additional test log\nMore information here");
+        }
     }
     catch (std::exception& err)
     {

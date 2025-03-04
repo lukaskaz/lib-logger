@@ -3,10 +3,10 @@
 #include <memory>
 #include <string>
 
-namespace logging
+namespace logs
 {
 
-enum class type
+enum class level
 {
     critical,
     error,
@@ -20,8 +20,8 @@ class LogIf
   public:
     virtual ~LogIf() = default;
 
-    virtual void log(type, const std::string&, const std::string&) = 0;
+    virtual void log(level, const std::string&, const std::string&) = 0;
     virtual std::string info() const = 0;
 };
 
-} // namespace logging
+} // namespace logs
