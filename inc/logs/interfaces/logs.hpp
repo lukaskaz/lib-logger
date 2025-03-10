@@ -15,6 +15,12 @@ enum class level
     debug
 };
 
+enum class tags
+{
+    hide,
+    show
+};
+
 class LogIf
 {
   public:

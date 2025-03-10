@@ -14,16 +14,17 @@ static const std::filesystem::path defaultpath{"logs/traces.log"};
 
 const std::unordered_map<level, std::string> levelNameMap = {
     {level::critical, "CRIT"},
-    {level::error, "ERR"},
+    {level::error, "ERR "},
     {level::warning, "WARN"},
     {level::info, "INFO"},
-    {level::debug, "DBG"}};
+    {level::debug, "DBG "}};
 
 struct Log::Handler
 {
   public:
     Handler(const config_t& config) :
-        fs{std::get<1>(config), defaultpath}, setlevel{std::get<0>(config)}
+        fs{std::get<std::string>(config), defaultpath},
+        setlevel{std::get<level>(config)}, settags{std::get<tags>(config)}
     {}
 
     class Filesystem
@@ -63,18 +64,20 @@ struct Log::Handler
     {
         if (loglevel <= setlevel)
         {
+            std::string tagtxt = settags == tags::show ? "[" + tag + "]" : "";
             std::ranges::for_each(
                 getmultiline(msg),
-                [this, loglevel, &tag](const std::string& line) {
-                    fs.storage << "[" << getlevelname(loglevel) << "][" << tag
-                               << "] " << line << std::endl;
+                [this, loglevel, &tagtxt](const std::string& line) {
+                    fs.storage << "[" << getlevelname(loglevel) << "]" << tagtxt
+                               << " " << line << std::endl;
                 });
         }
     }
 
   private:
     static const std::string info;
-    level setlevel{level::error};
+    const level setlevel{level::error};
+    const tags settags{tags::show};
 
     std::string getlevelname(level lvl) const
     {

@@ -4,11 +4,12 @@
 
 #include <memory>
 #include <string>
+#include <tuple>
 
 namespace logs::console
 {
 
-using config_t = level;
+using config_t = std::tuple<level, tags>;
 
 class Log : public LogIf
 {
