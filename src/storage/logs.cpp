@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
+#include <mutex>
 #include <unordered_map>
 
 namespace logs::storage
@@ -64,6 +65,7 @@ struct Log::Handler
     {
         if (loglevel <= setlevel)
         {
+            std::lock_guard lock(mtx);
             std::string tagtxt = settags == tags::show ? "[" + tag + "]" : "";
             std::ranges::for_each(
                 getmultiline(msg),
@@ -78,6 +80,7 @@ struct Log::Handler
     static const std::string info;
     const level setlevel{level::error};
     const tags settags{tags::show};
+    std::mutex mtx;
 
     std::string getlevelname(level lvl) const
     {
