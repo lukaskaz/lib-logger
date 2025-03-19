@@ -21,6 +21,12 @@ enum class tags
     show
 };
 
+enum class time
+{
+    hide,
+    show
+};
+
 class LogIf
 {
   public:
