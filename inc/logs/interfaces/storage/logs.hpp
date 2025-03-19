@@ -9,7 +9,7 @@
 namespace logs::storage
 {
 
-using config_t = std::tuple<level, tags, std::string>;
+using config_t = std::tuple<level, time, tags, std::string>;
 
 class Log : public LogIf
 {

@@ -9,7 +9,7 @@
 namespace logs::console
 {
 
-using config_t = std::tuple<level, tags>;
+using config_t = std::tuple<level, time, tags>;
 
 class Log : public LogIf
 {

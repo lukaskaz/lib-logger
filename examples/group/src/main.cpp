@@ -8,17 +8,20 @@ int main(int argc, [[maybe_unused]] char** argv)
 {
     try
     {
-        if (argc > 2)
+        if (argc > 3)
         {
+            auto lvl = (logs::level)atoi(argv[1]);
+            auto time = (logs::time)atoi(argv[2]);
+            auto tag = (logs::tags)atoi(argv[3]);
+
             using namespace logs;
-            auto lvl = (level)atoi(argv[1]);
-            auto tag = (tags)atoi(argv[2]);
-            auto logconsole =
-                Factory::create<console::Log, console::config_t>({lvl, tag});
+            auto logconsole = Factory::create<console::Log, console::config_t>(
+                {lvl, time, tag});
             auto logstorage = Factory::create<storage::Log, storage::config_t>(
-                {lvl, tag, {}});
+                {lvl, time, tag, {}});
             auto logIf = Factory::create<group::Log, group::config_t>(
                 {logconsole, logstorage});
+
             logIf->log(level::info, "tag", "Test log number one");
             logIf->log(level::critical, "tag",
                        "Additional test log\nMore information here");
